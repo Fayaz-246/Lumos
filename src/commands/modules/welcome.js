@@ -110,7 +110,7 @@ module.exports = {
             .setTitle("Updated Welcome Channel!")
             .addFields({
               name: "Channel: ",
-              vaue: `> ${channel.name} \`\`\`[${channel.id}]\`\`\``,
+              value: `> ${channel.name} \`\`\`[${channel.id}]\`\`\``,
             });
           await interaction.reply({ ephemeral: true, embeds: [embed] });
           break;
@@ -125,7 +125,7 @@ module.exports = {
             .setTitle("Updated Welcome Message!")
             .addFields({
               name: "Message: ",
-              vaue: `> ${message}`,
+              value: `> ${message}`,
             });
           await interaction.reply({ ephemeral: true, embeds: [embed] });
           break;
