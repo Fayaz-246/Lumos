@@ -1,7 +1,7 @@
 require("colors");
 const { readdirSync } = require("fs");
 const { REST, Routes } = require("discord.js");
-const timestamp = require("../utils/timestamp");
+const timestamp = require("../../utils/timestamp");
 
 module.exports = (client) => {
   const commandFolders = readdirSync("./src/commands");
@@ -12,7 +12,7 @@ module.exports = (client) => {
       (file) => file.endsWith(".js")
     );
     for (const file of commandFiles) {
-      const command = require(`../commands/${folder}/${file}`);
+      const command = require(`../../commands/${folder}/${file}`);
       if ("data" in command && "execute" in command) {
         const properties = { folder, ...command };
         client.commands.set(command.data.name, properties);

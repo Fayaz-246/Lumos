@@ -21,11 +21,10 @@ const client = new Client({
 });
 client.commands = new Collection();
 client.buttons = new Collection();
+client.autocomplete = new Collection();
 client.config = require("./config.js");
 
-const handlerFolder = readdirSync("./src/handlers").filter((f) =>
-  f.endsWith(".js")
-);
+const handlerFolder = readdirSync("./src/handlers", { withFileTypes: true });
 
 /* CACHE */
 client.cache = new Map();
@@ -48,8 +47,28 @@ client.logs.info = (text, type = "INFO") => {
 
 /* ------------------------ */
 client.login(process.env.Token).then(() => {
-  for (const handler of handlerFolder) {
-    const handlerFile = require(`./handlers/${handler}`);
-    handlerFile(client);
-  }
+  /* for (const handler of handlerFolder) {
+    if (handler.isFile()) {
+      const handlerFile = require(`./handlers/${handler.name}`);
+      handlerFile(client);
+    } else {
+      const handlerFiles = readdirSync(`${handler.path}/${handler.name}`);
+      for (const file of handlerFiles) {
+        const fileExec = require(`./handlers/${handler.name}/${file}`);
+        fileExec(client);
+      }
+    }
+  }*/
+  handlerFolder.forEach((handler) => {
+    if (handler.isFile()) {
+      const handlerFile = require(`./handlers/${handler.name}`);
+      handlerFile(client);
+    } else {
+      const handlerFiles = readdirSync(`${handler.path}/${handler.name}`);
+      handlerFiles.forEach((file) => {
+        const fileExec = require(`./handlers/${handler.name}/${file}`);
+        fileExec(client);
+      });
+    }
+  });
 });

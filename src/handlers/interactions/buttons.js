@@ -6,7 +6,7 @@ module.exports = (client) => {
     f.endsWith(".js")
   );
   for (const file of buttonFiles) {
-    const execFile = require(`../buttons/${file}`);
+    const execFile = require(`../../buttons/${file}`);
     if ("execute" in execFile && "data" in execFile && execFile.data.customId) {
       buttons.set(execFile.data.customId, execFile);
     } else {
