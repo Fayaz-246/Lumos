@@ -11,13 +11,6 @@ let schema = new Schema({
       reason: null,
     },
   },
-  economy: {
-    type: Object,
-    default: {
-      wallet: 0,
-      bank: 0,
-    },
-  },
 });
 
 module.exports = model("user9853", schema);

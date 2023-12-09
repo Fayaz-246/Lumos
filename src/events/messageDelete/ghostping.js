@@ -21,6 +21,7 @@ module.exports = async (client, message) => {
 
   if (!message.mentions) return;
   const mentions = message.mentions.users.first();
+  if (mentions.id == message.guildId) return;
   const embed = new EmbedBuilder()
     .setColor(client.config.embedColor)
     .setAuthor({

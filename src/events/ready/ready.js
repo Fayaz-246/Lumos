@@ -21,7 +21,9 @@ module.exports = async (client) => {
 
     const memInfo = await si.memLayout();
     memInfo.forEach((m, i) =>
-      client.logs.info(`RAM Slot ${i + 1}: ${m.manufacturer}-${m.partNum}`)
+      client.logs.info(
+        `RAM Slot ${i + 1}: ${m.manufacturer || "Unkown"} ${m.partNum}`
+      )
     );
 
     const gpuInfo = await si.graphics();

@@ -19,8 +19,8 @@ module.exports = {
     await interaction.reply({
       embeds: [
         {
-          description: `It ${result}!`,
-          color: parseInt(client.config.embedColor),
+          description: `It's **${result}**!`,
+          color: 0x0000,
         },
       ],
     });

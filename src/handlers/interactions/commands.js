@@ -14,8 +14,11 @@ module.exports = (client) => {
     for (const file of commandFiles) {
       const command = require(`../../commands/${folder}/${file}`);
       if ("data" in command && "execute" in command) {
-        const properties = { folder, ...command };
-        client.commands.set(command.data.name, properties);
+        // const properties = { folder, ...command };
+        client.commands.set(
+          command.data.name,
+          Object.assign(command, { folder })
+        );
         client.commandArray.push(command.data.toJSON());
       } else {
         client.logs.warn(`${file} is missing "data" or "execute".`);

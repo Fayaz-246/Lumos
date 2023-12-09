@@ -46,29 +46,21 @@ client.logs.info = (text, type = "INFO") => {
 };
 
 /* ------------------------ */
-client.login(process.env.Token).then(() => {
-  /* for (const handler of handlerFolder) {
-    if (handler.isFile()) {
-      const handlerFile = require(`./handlers/${handler.name}`);
-      handlerFile(client);
-    } else {
-      const handlerFiles = readdirSync(`${handler.path}/${handler.name}`);
-      for (const file of handlerFiles) {
-        const fileExec = require(`./handlers/${handler.name}/${file}`);
-        fileExec(client);
+clientLogin(process.env.Token);
+
+function clientLogin(token) {
+  client.login(token).then(() => {
+    handlerFolder.forEach((handler) => {
+      if (handler.isFile()) {
+        const handlerFile = require(`./handlers/${handler.name}`);
+        handlerFile(client);
+      } else {
+        const handlerFiles = readdirSync(`${handler.path}/${handler.name}`);
+        handlerFiles.forEach((file) => {
+          const fileExec = require(`./handlers/${handler.name}/${file}`);
+          fileExec(client);
+        });
       }
-    }
-  }*/
-  handlerFolder.forEach((handler) => {
-    if (handler.isFile()) {
-      const handlerFile = require(`./handlers/${handler.name}`);
-      handlerFile(client);
-    } else {
-      const handlerFiles = readdirSync(`${handler.path}/${handler.name}`);
-      handlerFiles.forEach((file) => {
-        const fileExec = require(`./handlers/${handler.name}/${file}`);
-        fileExec(client);
-      });
-    }
+    });
   });
-});
+}
