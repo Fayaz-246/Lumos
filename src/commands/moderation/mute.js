@@ -127,9 +127,21 @@ module.exports = {
       .setTimestamp();
 
     await targetMember.send({ embeds: [toMute] }).catch(() => {});
-    await targetMember.timeout(timeInMS).then(() => {
-      interaction.reply({ embeds: [emMute] });
-    });
+    await targetMember
+      .timeout(timeInMS)
+      .then(() => {
+        interaction.reply({ embeds: [emMute] });
+      })
+      .catch(async () => {
+        await interaction.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setColor(errorColor)
+              .setDescription("**🛠️ Something went wrong...**"),
+          ],
+          ephemeral: true,
+        });
+      });
   },
 };
 

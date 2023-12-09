@@ -23,6 +23,7 @@ module.exports = {
     const { embedColor } = client.config;
     const emojis = {
       community: "<:server:1176151842493833266>",
+      economy: "🪙",
       modules: "<:tools:1176152903556288612>",
       moderation: "<:mod:1176152357508227133>",
       utility: "⚙️",
