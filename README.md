@@ -1,7 +1,5 @@
 <center>
     <h1>Lumos</h1>
-    <img src='Lumos1.png' style="max-width: 200px;
-  border-radius: 100px;">
 </center>
 
 <br>
