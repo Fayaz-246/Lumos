@@ -1,6 +1,5 @@
 require("colors");
 const { Client, ActivityType } = require("discord.js");
-const timestamp = require("../../utils/timestamp");
 const si = require("systeminformation");
 
 /**
@@ -33,4 +32,24 @@ module.exports = async (client) => {
   } catch (error) {
     client.logs.error(error);
   }
+
+  /*let i = 0;
+  setTimeout(() => {
+    for (const c of client.commandArray) {
+      i++;
+      console.log(c);
+      if (c.options) {
+        c.options.forEach((s) => {
+          if (s.type == 1) i++;
+          else if (s.type == 2) {
+            console.log(s);
+            s.options.forEach((sc) => {
+              if (sc.type == 1) i++;
+            });
+          }
+        });
+      }
+    }
+    console.log(i);
+  }, 5_000);  This is for total command count ( including subcommands )*/
 };

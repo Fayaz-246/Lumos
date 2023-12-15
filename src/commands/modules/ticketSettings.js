@@ -187,9 +187,22 @@ module.exports = {
             );
 
           const btn = data.Button;
+          console.log(data.Button);
           const row = {
             type: 1,
-            components: [btn],
+            components: [
+              {
+                type: data.Button.type,
+                customId: "tickets",
+                style: data.Button.style,
+                emoji: {
+                  animated: data.Button.emoji.animated,
+                  id: data.Button.emoji.id,
+                  name: data.Button.emoji.name,
+                },
+                label: data.Button.label,
+              },
+            ],
           };
           const tEmbed = data.Embed;
 
@@ -243,166 +256,25 @@ module.exports = {
             );
           const actionRow = new ActionRowBuilder().addComponents(
             new ButtonBuilder()
-              .setCustomId("ticket-title")
-              .setStyle(ButtonStyle.Secondary)
-              .setLabel("Title"),
-            new ButtonBuilder()
-              .setCustomId("ticket-desc")
-              .setStyle(ButtonStyle.Secondary)
-              .setLabel("Description"),
-            new ButtonBuilder()
-              .setCustomId("ticket-color")
-              .setStyle(ButtonStyle.Secondary)
-              .setLabel("Color"),
+              .setCustomId("ticket-embed")
+              .setStyle(ButtonStyle.Primary)
+              .setLabel("Embed"),
             new ButtonBuilder()
               .setCustomId("ticket-button")
-              .setStyle(ButtonStyle.Secondary)
-              .setLabel("Button"),
-            new ButtonBuilder()
-              .setCustomId("ticket-save")
-              .setStyle(ButtonStyle.Success)
-              .setLabel("Save")
+              .setStyle(ButtonStyle.Primary)
+              .setLabel("Button")
           );
 
-          const ticketButton = new ButtonBuilder()
-            .setCustomId("tickets")
-            .setLabel("Open")
-            .setStyle(ButtonStyle.Primary);
-          const ticketEmbed = new EmbedBuilder().setTitle("Open a ticket!");
-
-          const reply = await interaction.followUp({
+          await interaction.followUp({
             embeds: [embed],
             components: [actionRow],
           });
-          const collector = await reply.createMessageComponentCollector({
-            componentType: ComponentType.Button,
+
+          client.caches.buttons.set(`tstyle-${interaction.user.id}`, {
+            guild: interaction.guild,
+            member: interaction.member,
           });
-          collector.on("end", () =>
-            interaction.editReply({
-              embeds: [],
-              components: [],
-              content: "Session ended.",
-            })
-          );
 
-          collector.on("collect", async (buttonInter) => {
-            if (buttonInter.user.bot) return;
-            if (buttonInter.user.id != interaction.user.id)
-              return await buttonInter.reply({
-                content: "You cannot use these buttons.",
-                ephemeral: true,
-              });
-
-            await buttonInter.deferReply({ ephemeral: true });
-            const cID = buttonInter.customId;
-
-            switch (cID) {
-              case "ticket-title":
-                const ticketReply = await buttonInter.followUp({
-                  ephemeral: true,
-                  content: "Enter the embed title.",
-                });
-                const collectorMsg1 =
-                  await ticketReply.channel.createMessageCollector();
-                collectorMsg1.on("collect", async (m1) => {
-                  if (m1.author.id != interaction.user.id) return;
-                  await buttonInter.followUp({
-                    ephemeral: true,
-                    content: `Set title to \`${m1.content}\``,
-                  });
-                  ticketEmbed.setTitle(m1.content);
-                  collectorMsg1.stop();
-                  m1.delete().catch(() => {});
-                });
-                break;
-
-              case "ticket-desc":
-                const ticketReply2 = await buttonInter.followUp({
-                  ephemeral: true,
-                  content: "Enter the embed description.",
-                });
-                const collectorMsg2 =
-                  await ticketReply2.channel.createMessageCollector();
-                collectorMsg2.on("collect", async (m2) => {
-                  if (m2.author.id != interaction.user.id) return;
-                  await buttonInter.followUp({
-                    ephemeral: true,
-                    content: `Set description to \`${m2.content}\``,
-                  });
-                  ticketEmbed.setDescription(m2.content);
-                  collectorMsg2.stop();
-                  m2.delete().catch(() => {});
-                });
-                break;
-
-              case "ticket-color":
-                const ticketReply3 = await buttonInter.followUp({
-                  ephemeral: true,
-                  content: "Enter the embed color.",
-                });
-                const collectorMsg3 =
-                  await ticketReply3.channel.createMessageCollector();
-                collectorMsg3.on("collect", async (m3) => {
-                  if (m3.author.id != interaction.user.id) return;
-                  if (!m3.content.startsWith("#") || m3.content.length != 7) {
-                    buttonInter.followUp({
-                      ephemeral: true,
-                      content:
-                        "Invalid **HEX** code.\nClick the button again to set.",
-                    });
-                    m3.delete().catch(() => {});
-                    collectorMsg3.stop();
-                    return;
-                  }
-                  await buttonInter.followUp({
-                    ephemeral: true,
-                    content: `Set color to \`${m3.content}\``,
-                  });
-                  ticketEmbed.setColor(m3.content);
-                  collectorMsg3.stop();
-                  m3.delete().catch(() => {});
-                });
-                break;
-
-              case "ticket-button":
-                const ticketReply4 = await buttonInter.followUp({
-                  ephemeral: true,
-                  content: "Enter the button text.",
-                });
-                const collectorMsg4 =
-                  await ticketReply4.channel.createMessageCollector();
-                collectorMsg4.on("collect", async (m4) => {
-                  if (m4.author.id != interaction.user.id) return;
-                  await buttonInter.followUp({
-                    ephemeral: true,
-                    content: `Set button text to \`${m4.content}\``,
-                  });
-                  ticketButton.setLabel(m4.content);
-                  collectorMsg4.stop();
-                  m4.delete().catch(() => {});
-                });
-                break;
-
-              case "ticket-save":
-                await buttonInter.followUp({
-                  ephemeral: true,
-                  content: "Saving...\nPreview Below:",
-                });
-                data.Embed = ticketEmbed.toJSON();
-                data.Button = ticketButton.toJSON();
-                await data.save();
-                await buttonInter.followUp({
-                  ephemeral: true,
-                  embeds: [ticketEmbed],
-                  components: [
-                    new ActionRowBuilder().addComponents(ticketButton),
-                  ],
-                });
-                break;
-            }
-          });
-          break;
-        default:
           break;
       }
     }

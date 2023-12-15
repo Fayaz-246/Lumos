@@ -93,7 +93,7 @@ module.exports = {
                 .setDescription(
                   `**Added \`${role.name}\` to \`${
                     roleMember.user.globalName ?? roleMember.user.username
-                  }**`
+                  }\`**`
                 ),
             ],
           });
@@ -125,6 +125,7 @@ module.exports = {
               ],
               ephemeral: true,
             });
+
           await roleMember.roles.remove(role);
           await interaction.reply({
             embeds: [
@@ -133,7 +134,7 @@ module.exports = {
                 .setDescription(
                   `**Removed \`${role.name}\` from \`${
                     roleMember.user.globalName ?? roleMember.user.username
-                  }**`
+                  }\`**`
                 ),
             ],
           });

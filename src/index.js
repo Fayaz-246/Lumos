@@ -29,24 +29,26 @@ const handlerFolder = readdirSync("./src/handlers", { withFileTypes: true });
 /* CACHE */
 client.cache = new Map();
 client.cooldowns = new Collection();
+client.caches = {
+  buttons: new Map(),
+};
 
 /* LOGS */
-client.logs = {};
-client.logs.success = (text, type = "SUCCESS") => {
-  return console.log(`${timestamp()} `.gray + `[${type}]`.green + ` ${text}`);
-};
-client.logs.error = (text, type = "ERROR") => {
-  return console.log(`${timestamp()} `.gray + `[${type}]`.red + ` ${text}`);
-};
-client.logs.warn = (text, type = "WARN") => {
-  return console.log(`${timestamp()} `.gray + `[${type}]`.yellow + ` ${text}`);
-};
-client.logs.info = (text, type = "INFO") => {
-  return console.log(`${timestamp()} `.gray + `[${type}]`.blue + ` ${text}`);
+client.logs = {
+  success: (text, type = "SUCCESS") =>
+    console.log(`${timestamp()} `.gray + `[${type}]`.green + ` ${text}`),
+  error: (text, type = "ERROR") =>
+    console.log(`${timestamp()} `.gray + `[${type}]`.red + ` ${text}`),
+  warn: (text, type = "WARN") =>
+    console.log(`${timestamp()} `.gray + `[${type}]`.yellow + ` ${text}`),
+  info: (text, type = "INFO") =>
+    console.log(`${timestamp()} `.gray + `[${type}]`.blue + ` ${text}`),
 };
 
 /* ------------------------ */
-clientLogin(process.env.Token);
+if (process.argv[2] == "dev") clientLogin(process.env.Token_Dev);
+else if (process.argv[2] == "prod") clientLogin(process.env.Token_Prod);
+else client.logs.error("Invalid run environment.");
 
 function clientLogin(token) {
   client.login(token).then(() => {

@@ -3,6 +3,10 @@ const { readdirSync } = require("fs");
 const { REST, Routes } = require("discord.js");
 const timestamp = require("../../utils/timestamp");
 
+/**
+ *
+ * @param {import('discord.js').Client} client
+ */
 module.exports = (client) => {
   const commandFolders = readdirSync("./src/commands");
   client.commandArray = [];
@@ -14,7 +18,6 @@ module.exports = (client) => {
     for (const file of commandFiles) {
       const command = require(`../../commands/${folder}/${file}`);
       if ("data" in command && "execute" in command) {
-        // const properties = { folder, ...command };
         client.commands.set(
           command.data.name,
           Object.assign(command, { folder })
@@ -37,9 +40,11 @@ module.exports = (client) => {
         "CMDS"
       );
 
-      await rest.put(Routes.applicationCommands(process.env.ClientID), {
+      /*  await rest.put(Routes.applicationCommands(process.env.ClientID), {
         body: client.commandArray,
-      });
+      });*/
+
+      client.application.commands.set(client.commandArray);
 
       client.logs.success(
         `Successfully ${client.commandArray.length} refreshed application ( / ) commands`,

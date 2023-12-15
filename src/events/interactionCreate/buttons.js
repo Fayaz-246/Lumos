@@ -9,11 +9,13 @@ module.exports = async (client, interaction) => {
   if (!interaction.isButton()) return;
   const { buttons, config } = client;
   const { customId } = interaction;
-  const button = buttons.get(customId);
+  const args = customId.split("-");
+  const id = args.shift();
+  const button = buttons.get(id);
 
   if (!button) return;
   try {
-    await button.execute(interaction, client);
+    await button.execute(interaction, client, args);
   } catch (err) {
     interaction.reply({
       embeds: [

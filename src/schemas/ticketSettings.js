@@ -18,7 +18,7 @@ let ticketSettings = new Schema({
     required: true,
   },
   Embed: {
-    type: Object,
+    type: Schema({ title: String, description: String, color: Number }),
     required: false,
     default: {
       title: "Open a ticket!",
@@ -27,7 +27,12 @@ let ticketSettings = new Schema({
     },
   },
   Button: {
-    type: Object,
+    type: Schema({
+      type: Number,
+      emoji: Schema({ id: String, name: String, animated: Boolean }),
+      style: Number,
+      label: String,
+    }),
     required: false,
     default: {
       type: 2,

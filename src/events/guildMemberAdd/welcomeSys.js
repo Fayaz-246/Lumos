@@ -38,7 +38,10 @@ module.exports = async (client, member) => {
     .setTimestamp()
     .setTitle("Welcome!");
 
-  await guild.channels.cache.get(data.ChannelID).send({ embeds: [embed] });
+  await guild.channels.cache
+    .get(data.ChannelID)
+    .send({ embeds: [embed] })
+    .catch(() => {});
 
   setTimeout(() => {
     client.cache.delete(`welcome-${guild.id}`);
