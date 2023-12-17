@@ -44,6 +44,9 @@ client.logs = {
   info: (text, type = "INFO") =>
     console.log(`${timestamp()} `.gray + `[${type}]`.blue + ` ${text}`),
 };
+/* ------------------------ */
+
+client.tables = { commands: null, events: null, buttons: null };
 
 /* ------------------------ */
 if (process.argv[2] == "dev") clientLogin(process.env.Token_Dev);

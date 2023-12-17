@@ -86,7 +86,7 @@ module.exports = {
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
-        .setCustomId("lock-ticket")
+        .setCustomId("lock.ticket")
         .setStyle(ButtonStyle.Secondary)
         .setEmoji("🔒")
         .setLabel("Lock")

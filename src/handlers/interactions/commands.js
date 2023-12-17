@@ -1,8 +1,7 @@
 require("colors");
 const { readdirSync } = require("fs");
-const { REST, Routes } = require("discord.js");
-const timestamp = require("../../utils/timestamp");
-
+const AsciiTable = require("ascii-table");
+const formatStr = require("../../utils/formatStr");
 /**
  *
  * @param {import('discord.js').Client} client
@@ -10,6 +9,10 @@ const timestamp = require("../../utils/timestamp");
 module.exports = (client) => {
   const commandFolders = readdirSync("./src/commands");
   client.commandArray = [];
+
+  const table = new AsciiTable()
+    .setTitle("COMMANDS")
+    .setHeading("Name", "Folder", "Status");
 
   for (const folder of commandFolders) {
     const commandFiles = readdirSync(`./src/commands/${folder}`).filter(
@@ -23,15 +26,13 @@ module.exports = (client) => {
           Object.assign(command, { folder })
         );
         client.commandArray.push(command.data.toJSON());
+        table.addRow(command.data.name, formatStr(command.folder), "✅");
       } else {
         client.logs.warn(`${file} is missing "data" or "execute".`);
+        table.addRow(file, formatStr(folder), "❌");
       }
     }
   }
-
-  const rest = new REST({
-    version: "10",
-  }).setToken(process.env.Token);
 
   (async () => {
     try {
@@ -40,16 +41,13 @@ module.exports = (client) => {
         "CMDS"
       );
 
-      /*  await rest.put(Routes.applicationCommands(process.env.ClientID), {
-        body: client.commandArray,
-      });*/
-
       client.application.commands.set(client.commandArray);
 
       client.logs.success(
         `Successfully ${client.commandArray.length} refreshed application ( / ) commands`,
         "CMDS"
       );
+      client.tables.commands = table.toString();
     } catch (error) {
       client.logs.error(
         `Error while registring application commands: \n${error.stack}`

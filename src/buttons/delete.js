@@ -12,7 +12,7 @@ const ticketData = require("../schemas/ticket");
 const { createTranscript } = require("discord-html-transcripts");
 
 module.exports = {
-  data: { customId: "delete" },
+  data: { customId: "delete.ticket" },
   /**
    *
    * @param {Interaction} interaction

@@ -8,6 +8,9 @@ const si = require("systeminformation");
  */
 
 module.exports = async (client) => {
+  if (process.argv[2] == "dev")
+    console.log(`${client.tables.commands}\n\n${client.tables.buttons}`);
+
   client.logs.info(`${client.user.username} is online!`);
   client.user.setPresence({
     activities: [{ name: "/help", type: ActivityType.Playing }],

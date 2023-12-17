@@ -11,7 +11,7 @@ const ticketSettings = require("../schemas/ticketSettings");
 const ticketData = require("../schemas/ticket");
 
 module.exports = {
-  data: { customId: "unlock-ticket" },
+  data: { customId: "unlock.ticket" },
   /**
    *
    * @param {Interaction} interaction

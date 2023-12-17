@@ -11,7 +11,7 @@ const ticketSettings = require("../schemas/ticketSettings");
 const ticketData = require("../schemas/ticket");
 
 module.exports = {
-  data: { customId: "lock-ticket" },
+  data: { customId: "lock.ticket" },
   /**
    *
    * @param {Interaction} interaction
@@ -47,12 +47,12 @@ module.exports = {
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
-        .setCustomId("unlock-ticket")
+        .setCustomId("unlock.ticket")
         .setEmoji("🔓")
         .setLabel("Unlock")
         .setStyle(ButtonStyle.Secondary),
       new ButtonBuilder()
-        .setCustomId("delete")
+        .setCustomId("delete.ticket")
         .setEmoji("🗑️")
         .setLabel("Delete")
         .setStyle(ButtonStyle.Danger)
