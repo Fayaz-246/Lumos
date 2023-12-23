@@ -25,7 +25,7 @@ module.exports = async (client, member) => {
 
   if (data.Roles.length < 0) return;
   for (const r of data.Roles) {
-    await member.roles.add(r);
+    await member.roles.add(r).catch(() => {});
   }
 
   setTimeout(() => {

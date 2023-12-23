@@ -7,11 +7,11 @@ const {
   ButtonStyle,
   PermissionFlagsBits,
 } = require("discord.js");
-const ticketSettings = require("../schemas/ticketSettings");
-const ticketData = require("../schemas/ticket");
+const ticketSettings = require("../../schemas/ticketSettings");
+const ticketData = require("../../schemas/ticket");
 
 module.exports = {
-  data: { customId: "unlock.ticket" },
+  data: { customId: "lock.ticket" },
   /**
    *
    * @param {Interaction} interaction
@@ -39,20 +39,30 @@ module.exports = {
         ephemeral: true,
         content: "🛠️ Something went wrong...",
       });
-    if (!openedData.Closed)
+    if (openedData.Closed)
       return await interaction.reply({
         ephemeral: true,
-        content: "This ticket is already unlocked.",
+        content: "This ticket is already closed.",
       });
 
+    const row = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId("unlock.ticket")
+        .setEmoji("🔓")
+        .setLabel("Unlock")
+        .setStyle(ButtonStyle.Secondary),
+      new ButtonBuilder()
+        .setCustomId("delete.ticket")
+        .setEmoji("🗑️")
+        .setLabel("Delete")
+        .setStyle(ButtonStyle.Danger)
+    );
     channel.permissionOverwrites.set([
       { id: guildId, deny: [PermissionFlagsBits.ViewChannel] },
       {
         id: openedData.UserID,
-        allow: [
-          PermissionFlagsBits.ViewChannel,
-          PermissionFlagsBits.SendMessages,
-        ],
+        allow: [PermissionFlagsBits.ViewChannel],
+        deny: [PermissionFlagsBits.SendMessages],
       },
       {
         id: data.ManagerRole,
@@ -62,15 +72,13 @@ module.exports = {
         ],
       },
     ]);
-    openedData.Closed = false;
+    openedData.Closed = true;
     await openedData.save();
-    await interaction.update({
+    await interaction.reply({
+      components: [row],
       embeds: [
-        embed
-          .setColor(successColor)
-          .setDescription("🔓 **Unlocked the channel!**"),
+        embed.setColor(errorColor).setDescription("🔒 **Locked the channel!**"),
       ],
-      components: [],
     });
   },
 };

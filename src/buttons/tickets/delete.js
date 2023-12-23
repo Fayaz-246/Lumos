@@ -7,8 +7,8 @@ const {
   ButtonStyle,
   PermissionFlagsBits,
 } = require("discord.js");
-const ticketSettings = require("../schemas/ticketSettings");
-const ticketData = require("../schemas/ticket");
+const ticketSettings = require("../../schemas/ticketSettings");
+const ticketData = require("../../schemas/ticket");
 const { createTranscript } = require("discord-html-transcripts");
 
 module.exports = {

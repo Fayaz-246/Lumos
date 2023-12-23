@@ -7,7 +7,7 @@ module.exports = (client) => {
   const table = new AsciiTable()
     .setTitle("BUTTONS")
     .setHeading("Name", "Folder", "Status");
-  const buttonFiles = readdirSync(`./src/buttons`, { withFileTypes: true }); //.filter((f) => f.endsWith(".js"));
+  const buttonFiles = readdirSync(`./src/buttons`, { withFileTypes: true });
 
   for (const file of buttonFiles) {
     if (file.isDirectory()) {

@@ -7,8 +7,8 @@ const {
   ButtonStyle,
   PermissionFlagsBits,
 } = require("discord.js");
-const ticketSettings = require("../schemas/ticketSettings");
-const ticketData = require("../schemas/ticket");
+const ticketSettings = require("../../schemas/ticketSettings");
+const ticketData = require("../../schemas/ticket");
 
 module.exports = {
   data: { customId: "tickets" },
@@ -92,16 +92,18 @@ module.exports = {
         .setLabel("Lock")
     );
 
-    const m = await ticketChannel.send({
-      content: `<@&${data.ManagerRole}>`,
-      embeds: [embed],
-      components: [row],
-    });
+    const m = await ticketChannel
+      .send({
+        content: `<@&${data.ManagerRole}>`,
+        embeds: [embed],
+        components: [row],
+      })
+      .catch(() => {});
     await interaction.reply({
       ephemeral: true,
       content: `Opened a ticket at - <#${ticketChannel.id}>!`,
     });
-    await m.pin();
+    await m.pin().catch(() => {});
   },
 };
 

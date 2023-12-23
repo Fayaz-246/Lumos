@@ -21,7 +21,7 @@ const client = new Client({
 });
 client.commands = new Collection();
 client.buttons = new Collection();
-client.autocomplete = new Collection();
+client.menus = { string: new Collection(), role: new Collection() };
 client.config = require("./config.js");
 
 const handlerFolder = readdirSync("./src/handlers", { withFileTypes: true });
@@ -46,8 +46,18 @@ client.logs = {
 };
 /* ------------------------ */
 
-client.tables = { commands: null, events: null, buttons: null };
+client.tables = { commands: null, events: null, buttons: null, menus: null };
 
+/* ------------------------ */
+process.on("unhandledRejection", async (reason, promise) => {
+  console.log(`Unhandled Rejection at: ${promise}\n\nReason: ${reason}`.red);
+});
+process.on("uncaughtException", async (error) => {
+  console.log(`Uncaught Exception at: ${error}`.red);
+});
+process.on("uncaughtExceptionMonitor", (err, origin) => {
+  console.log(`Uncaught Exception Monitor: ${err} ${origin}`.red);
+});
 /* ------------------------ */
 if (process.argv[2] == "dev") clientLogin(process.env.Token_Dev);
 else if (process.argv[2] == "prod") clientLogin(process.env.Token_Prod);

@@ -162,7 +162,7 @@ module.exports = {
             .addFields(
               {
                 name: "Channel: ",
-                value: `> <#${channel.name}> \`[${channel.id}]\``,
+                value: `> <#${channel.id}> \`[${channel.id}]\``,
               },
               { name: "Message: ", value: `> \`\`\`${message}\`\`\`` }
             );

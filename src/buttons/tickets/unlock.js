@@ -7,11 +7,11 @@ const {
   ButtonStyle,
   PermissionFlagsBits,
 } = require("discord.js");
-const ticketSettings = require("../schemas/ticketSettings");
-const ticketData = require("../schemas/ticket");
+const ticketSettings = require("../../schemas/ticketSettings");
+const ticketData = require("../../schemas/ticket");
 
 module.exports = {
-  data: { customId: "lock.ticket" },
+  data: { customId: "unlock.ticket" },
   /**
    *
    * @param {Interaction} interaction
@@ -39,30 +39,20 @@ module.exports = {
         ephemeral: true,
         content: "🛠️ Something went wrong...",
       });
-    if (openedData.Closed)
+    if (!openedData.Closed)
       return await interaction.reply({
         ephemeral: true,
-        content: "This ticket is already closed.",
+        content: "This ticket is already unlocked.",
       });
 
-    const row = new ActionRowBuilder().addComponents(
-      new ButtonBuilder()
-        .setCustomId("unlock.ticket")
-        .setEmoji("🔓")
-        .setLabel("Unlock")
-        .setStyle(ButtonStyle.Secondary),
-      new ButtonBuilder()
-        .setCustomId("delete.ticket")
-        .setEmoji("🗑️")
-        .setLabel("Delete")
-        .setStyle(ButtonStyle.Danger)
-    );
     channel.permissionOverwrites.set([
       { id: guildId, deny: [PermissionFlagsBits.ViewChannel] },
       {
         id: openedData.UserID,
-        allow: [PermissionFlagsBits.ViewChannel],
-        deny: [PermissionFlagsBits.SendMessages],
+        allow: [
+          PermissionFlagsBits.ViewChannel,
+          PermissionFlagsBits.SendMessages,
+        ],
       },
       {
         id: data.ManagerRole,
@@ -72,13 +62,15 @@ module.exports = {
         ],
       },
     ]);
-    openedData.Closed = true;
+    openedData.Closed = false;
     await openedData.save();
-    await interaction.reply({
-      components: [row],
+    await interaction.update({
       embeds: [
-        embed.setColor(errorColor).setDescription("🔒 **Locked the channel!**"),
+        embed
+          .setColor(successColor)
+          .setDescription("🔓 **Unlocked the channel!**"),
       ],
+      components: [],
     });
   },
 };

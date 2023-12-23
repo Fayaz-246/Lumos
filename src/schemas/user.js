@@ -11,6 +11,7 @@ let schema = new Schema({
       reason: null,
     },
   },
+  birthday: { type: Number },
 });
 
 module.exports = model("user9853", schema);

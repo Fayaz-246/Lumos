@@ -17,7 +17,8 @@ module.exports = async (client, interaction) => {
   try {
     await button.execute(interaction, client, args);
   } catch (err) {
-    interaction.reply({
+    await interaction.deferReply().catch(() => {});
+    interaction.editReply({
       embeds: [
         new EmbedBuilder()
           .setColor(config.errorColor)
