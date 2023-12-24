@@ -38,16 +38,14 @@ module.exports = async (client) => {
     client.logs.error(error);
   }
 
-  /*let i = 0;
+  let i = 0;
   setTimeout(() => {
     for (const c of client.commandArray) {
       i++;
-      console.log(c);
       if (c.options) {
         c.options.forEach((s) => {
           if (s.type == 1) i++;
           else if (s.type == 2) {
-            console.log(s);
             s.options.forEach((sc) => {
               if (sc.type == 1) i++;
             });
@@ -55,6 +53,6 @@ module.exports = async (client) => {
         });
       }
     }
-    console.log(i);
-  }, 5_000);  This is for total command count ( including subcommands )*/
+    client.logs.info(`Total Bot Commands: ${i}`);
+  }, 5_000); /* This is for total command count ( including subcommands )*/
 };

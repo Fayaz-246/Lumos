@@ -91,6 +91,10 @@ module.exports = {
           ],
         });
         break;
+      case "bgr":
+        await interaction.deleteReply();
+        client.cache.remove(`bug-reports-${interaction.user.id}`);
+        break;
     }
   },
 };

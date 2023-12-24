@@ -2,6 +2,7 @@ require("colors");
 const { readdirSync } = require("fs");
 const AsciiTable = require("ascii-table");
 const formatStr = require("../../utils/formatStr");
+const cleanObj = require("../../utils/cleanObj");
 /**
  *
  * @param {import('discord.js').Client} client
@@ -25,7 +26,7 @@ module.exports = (client) => {
           command.data.name,
           Object.assign(command, { folder })
         );
-        client.commandArray.push(command.data.toJSON());
+        client.commandArray.push(cleanObj(command.data.toJSON()));
         table.addRow(command.data.name, formatStr(command.folder), "✅");
       } else {
         client.logs.warn(`${file} is missing "data" or "execute".`);
