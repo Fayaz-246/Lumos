@@ -2,8 +2,9 @@ module.exports = {
   // Embed Colors
 
   embedColor: "#000100",
-  successColor: "Green",
-  errorColor: "Red",
+  successColor: "#57f287",
+  errorColor: "#ed4245",
+  loadingColor: "#fee75c",
 
   emojis: {
     ticket: "🎫",

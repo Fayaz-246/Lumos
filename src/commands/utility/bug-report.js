@@ -22,7 +22,7 @@ module.exports = {
       title: "Bug Report",
       description:
         "**Title:** `NOT SET`\n**Priority:** `NOT SET`\n**Description:** `NOT SET`",
-      color: parseInt(client.config.embedColor, 16),
+      color: parseInt(client.config.embedColor.slice(1), 16),
     };
     const row1 = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
