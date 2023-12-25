@@ -95,6 +95,10 @@ module.exports = {
         await interaction.deleteReply();
         client.cache.remove(`bug-reports-${interaction.user.id}`);
         break;
+      case "suggest":
+        await interaction.deleteReply();
+        client.cache.remove(`suggestions-${interaction.user.id}`);
+        break;
     }
   },
 };

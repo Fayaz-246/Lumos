@@ -53,10 +53,10 @@ process.on("unhandledRejection", async (reason, promise) => {
   console.log(`Unhandled Rejection at: ${promise}\n\nReason: ${reason}`.red);
 });
 process.on("uncaughtException", async (error) => {
-  console.log(`Uncaught Exception at: ${error}`.red);
+  console.log(`Uncaught Exception at: ${error.stack}`.red);
 });
 process.on("uncaughtExceptionMonitor", (err, origin) => {
-  console.log(`Uncaught Exception Monitor: ${err} ${origin}`.red);
+  console.log(`Uncaught Exception Monitor: ${err.stack} ${origin}`.red);
 });
 /* ------------------------ */
 if (process.argv[2] == "dev") clientLogin(process.env.Token_Dev);

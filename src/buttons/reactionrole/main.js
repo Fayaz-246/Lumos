@@ -52,7 +52,6 @@ module.exports = {
 
               return {
                 label: `${role.name}`,
-                description: `Remove the ${role.name} from the panel.`,
                 value: `${role.id}`,
               };
             })

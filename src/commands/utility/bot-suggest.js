@@ -9,9 +9,9 @@ const {
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("bug-report")
-    .setDescription("Report a bug to the devs."),
-  cooldown: 3600,
+    .setName("bot-suggst")
+    .setDescription("Suggest a feature for the bot!"),
+  //cooldown: 3600,
   /**
    * @param {ChatInputCommandInteraction} interaction
    * @param {Client} client
@@ -19,34 +19,34 @@ module.exports = {
    */
   async execute(interaction, client) {
     const embed = {
-      title: "Bug Report",
+      title: "Suggestion",
       description:
-        "**Title:** `NOT SET`\n**Priority:** `NOT SET`\n**Description:** `NOT SET`",
+        "**Title:** `NOT SET`\n**Type:** `NOT SET`\n**Description:** `NOT SET`",
       color: parseInt(client.config.embedColor, 16),
     };
     const row1 = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
-        .setCustomId(`bug.reports-title`)
+        .setCustomId(`suggest-title`)
         .setStyle(ButtonStyle.Secondary)
         .setLabel("Title"),
       new ButtonBuilder()
-        .setCustomId(`bug.reports-pri`)
+        .setCustomId(`suggest-type`)
         .setStyle(ButtonStyle.Secondary)
-        .setLabel("Priority"),
+        .setLabel("Type"),
       new ButtonBuilder()
-        .setCustomId(`bug.reports-desc`)
+        .setCustomId(`suggest-desc`)
         .setStyle(ButtonStyle.Secondary)
         .setLabel("Description")
     );
     const row2 = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
-        .setCustomId(`back-bgr`)
+        .setCustomId(`back-suggest`)
         .setStyle(ButtonStyle.Danger)
         .setLabel("Cancel"),
       new ButtonBuilder()
-        .setCustomId(`bug.reports-finish`)
+        .setCustomId(`suggest-submit`)
         .setStyle(ButtonStyle.Success)
-        .setLabel("Finish")
+        .setLabel("Submit")
         .setDisabled(true)
     );
     await interaction
@@ -56,9 +56,9 @@ module.exports = {
         components: [row1, row2],
       })
       .then(() =>
-        client.cache.set(`bug-reports-${interaction.user.id}`, {
+        client.cache.set(`suggestions-${interaction.user.id}`, {
           title: "NOT SET",
-          priority: "NOT SET",
+          type: "NOT SET",
           description: "NOT SET",
         })
       );
