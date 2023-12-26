@@ -20,7 +20,7 @@ module.exports = {
       embeds: [
         {
           description: `It's **${result}**!`,
-          color: 0x0000,
+          color: parseInt(client.config.embedColor.slice(1), 16),
         },
       ],
     });

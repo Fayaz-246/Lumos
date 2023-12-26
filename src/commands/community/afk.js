@@ -29,9 +29,10 @@ module.exports = {
     });
     const embed = new EmbedBuilder()
       .setColor(client.config.embedColor)
-      .setFooter({ iconURL: user.displayAvatarURL(), text: "AFK System" });
+      .setFooter({ iconURL: user.displayAvatarURL(), text: "AFK System" })
+      .setTimestamp();
 
-    if (data) client.cache.delete(`afk-${guildId}-${user.id}`);
+    if (data.afk.isAFK) client.cache.delete(`afk-${guildId}-${user.id}`);
     if (data) {
       if (data.afk.isAFK) {
         embed
@@ -39,6 +40,7 @@ module.exports = {
           .setDescription("**You are already afk!**");
         return await interaction.editReply({ embeds: [embed] });
       }
+
       await userSchema.findOneAndUpdate(
         {
           GuildID: guildId,
@@ -66,7 +68,7 @@ module.exports = {
 
     await interaction.editReply({ embeds: [embed] });
     await member
-      .setNickname(`AFK - ${user.globalName || user.username}`)
+      .setNickname(`AFK - ${user.globalName ?? user.username}`)
       .catch(() => {});
   },
 };

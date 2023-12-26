@@ -62,7 +62,6 @@ module.exports = {
       });
       data.lastBegged = Date.now() + 300_000;
       await data.save();
-      console.log(chance);
       return;
     }
 

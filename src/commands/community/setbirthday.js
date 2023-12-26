@@ -31,6 +31,16 @@ module.exports = {
         "Sadly, this server does not have the birthday system setup."
       );
 
+    if (
+      interaction.options
+        .getString("date")
+        .toLowerCase()
+        .includes("inavlid date")
+    )
+      return await await interaction.editReply(
+        "The date you picked its `Invalid`."
+      );
+
     const date = parseInt(interaction.options.getString("date"));
     const data = await user.findOne({
       GuildID: interaction.guildId,
@@ -71,7 +81,7 @@ module.exports = {
       await interaction.respond([{ name: res, value: `${converted}` }]);
     } else {
       await interaction.respond([
-        { name: "Invalid date.", value: "Invalid Date." },
+        { name: "Invalid Date.", value: "Invalid Date." },
       ]);
     }
   },

@@ -8,6 +8,7 @@ let schema = new Schema({
   lastWorked: { type: Number },
   lastDaily: { type: Number },
   lastBegged: { type: Number },
+  lastRobbed: { type: Number },
 });
 
 module.exports = model("economy4322", schema);

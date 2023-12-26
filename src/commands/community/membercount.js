@@ -21,7 +21,7 @@ module.exports = {
         {
           title: "Membercount",
           description: `**${interaction.guild.memberCount}**`,
-          color: 0x0000,
+          color: parseInt(client.config.embedColor.slice(1), 16),
         },
       ],
     });
